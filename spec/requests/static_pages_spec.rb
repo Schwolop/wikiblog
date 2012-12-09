@@ -4,7 +4,7 @@ describe "Static pages" do
 
   describe "Home page" do
     before do
-      visit '/home'
+      visit home_path
       @home_page_content = page.text
     end
     
@@ -13,14 +13,14 @@ describe "Static pages" do
     end
     
     it "should be accessible via the root url" do
-      visit '/'
+      visit root_path
       page.text.should eq(@home_page_content)
     end
   end
   
   describe "About page" do
     it "should have some content" do
-      visit '/about'
+      visit about_path
       page.should have_content('WikiBlog')
     end
   end
