@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_filter :logged_in_user, only: [:edit, :update]
+  before_filter :correct_user,   only: [:edit, :update]
+  
   # GET /users
   # GET /users.json
   def index
@@ -34,7 +37,6 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @user = User.find(params[:id])
   end
 
   # POST /users
@@ -45,7 +47,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         format.html do
-          sign_in @user
+          log_in @user
           flash[:success]='Welcome to WikiBlog!'
           redirect_to @user
         end
@@ -60,13 +62,11 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update
-    @user = User.find(params[:id])
-
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html do
           flash[:success] = "Profile updated"
-          sign_in @user
+          log_in @user
           redirect_to @user
         end
         format.json { head :no_content }
@@ -88,4 +88,18 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+    def logged_in_user
+      unless logged_in?
+        store_location
+        redirect_to login_url, notice: "Please log in."
+      end
+    end
+  
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_path) unless current_user?(@user)
+    end
 end
