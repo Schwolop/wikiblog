@@ -45,6 +45,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         format.html do
+          sign_in @user
           flash[:success]='Welcome to WikiBlog!'
           redirect_to @user
         end
