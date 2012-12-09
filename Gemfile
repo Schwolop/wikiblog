@@ -38,6 +38,7 @@ group :test do
   gem 'capybara', '1.1.2'
   gem 'rb-fsevent', '0.9.1', :require => false
   gem 'growl', '1.0.3'
+  gem 'factory_girl_rails', '4.1.0'
   # Pretty printed test output
   gem 'turn', '~> 0.8.3', :require => false
 end
