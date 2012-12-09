@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_many :posts
   
   before_save { |user| user.email = email.downcase }
+  before_save :create_remember_token
   
   has_secure_password
   
@@ -27,3 +28,9 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 end
+
+private
+
+  def create_remember_token
+    self.remember_token = SecureRandom.urlsafe_base64
+  end
