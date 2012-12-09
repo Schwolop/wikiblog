@@ -3,6 +3,9 @@ Wikiblog::Application.routes.draw do
   get '/home' => "static_pages#home"
   get '/about' => "static_pages#about"
 
+  match '/signup',  to: 'users#new'
+  get '/login' => 'users#login'
+
   resources :posts
   resources :users
 
