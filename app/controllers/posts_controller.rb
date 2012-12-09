@@ -44,7 +44,10 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.html do
+          flash[:success]='Your post is now visible!'
+          redirect_to @post
+        end
         format.json { render json: @post, status: :created, location: @post }
       else
         format.html { render action: "new" }
