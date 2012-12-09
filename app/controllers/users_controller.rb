@@ -64,7 +64,11 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html do
+          flash[:success] = "Profile updated"
+          sign_in @user
+          redirect_to @user
+        end
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
